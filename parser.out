@@ -1,0 +1,110 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> def
+Rule 1     def -> text
+Rule 2     text -> line
+Rule 3     text -> line NEWLINE text
+Rule 4     line -> STRING
+Rule 5     line -> STRING TAB line
+
+Terminals, with rules where they appear
+
+NEWLINE              : 3
+STRING               : 4 5
+TAB                  : 5
+error                : 
+
+Nonterminals, with rules where they appear
+
+def                  : 0
+line                 : 2 3 5
+text                 : 1 3
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . def
+    (1) def -> . text
+    (2) text -> . line
+    (3) text -> . line NEWLINE text
+    (4) line -> . STRING
+    (5) line -> . STRING TAB line
+
+    STRING          shift and go to state 4
+
+    def                            shift and go to state 1
+    text                           shift and go to state 2
+    line                           shift and go to state 3
+
+state 1
+
+    (0) S' -> def .
+
+
+
+state 2
+
+    (1) def -> text .
+
+    $end            reduce using rule 1 (def -> text .)
+
+
+state 3
+
+    (2) text -> line .
+    (3) text -> line . NEWLINE text
+
+    $end            reduce using rule 2 (text -> line .)
+    NEWLINE         shift and go to state 5
+
+
+state 4
+
+    (4) line -> STRING .
+    (5) line -> STRING . TAB line
+
+    NEWLINE         reduce using rule 4 (line -> STRING .)
+    $end            reduce using rule 4 (line -> STRING .)
+    TAB             shift and go to state 6
+
+
+state 5
+
+    (3) text -> line NEWLINE . text
+    (2) text -> . line
+    (3) text -> . line NEWLINE text
+    (4) line -> . STRING
+    (5) line -> . STRING TAB line
+
+    STRING          shift and go to state 4
+
+    line                           shift and go to state 3
+    text                           shift and go to state 7
+
+state 6
+
+    (5) line -> STRING TAB . line
+    (4) line -> . STRING
+    (5) line -> . STRING TAB line
+
+    STRING          shift and go to state 4
+
+    line                           shift and go to state 8
+
+state 7
+
+    (3) text -> line NEWLINE text .
+
+    $end            reduce using rule 3 (text -> line NEWLINE text .)
+
+
+state 8
+
+    (5) line -> STRING TAB line .
+
+    NEWLINE         reduce using rule 5 (line -> STRING TAB line .)
+    $end            reduce using rule 5 (line -> STRING TAB line .)
+
