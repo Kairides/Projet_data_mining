@@ -15,7 +15,7 @@ def myparse(filepath, newfile):
 
 
     def t_STRING(t):
-        r'[-,.:/"#éèàê\w\b\(\)\s"]+'
+        r'[-,.!?:/"#&éèàê\w\\\\[\]\(\)\s"\']+'
         print(t)
         return t
 
@@ -56,7 +56,13 @@ def myparse(filepath, newfile):
     def p_line(p):
         '''line : STRING
                 | STRING TAB line'''
-        e = string(p[0])
+
+        if len(p) == 3:
+            e = str(p[2])
+        else:
+            e = str(p[1])
+
+        print(e)
         newfile.write(e)
 
     def p_error(p):
@@ -76,6 +82,6 @@ def myparse(filepath, newfile):
 
 newfile = open("donnees/newdata.data", "w")
 
-myparse("donnees/tracks.data", newfile)
+myparse("donnees/playlists.data", newfile)
 
 newfile.close()
