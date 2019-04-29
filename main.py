@@ -1,21 +1,21 @@
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from mca2 import *
+# import numpy as np
+# import matplotlib.pyplot as plt
+# from mca import *
 # import graphviz
-
 # import seaborn as sns
 # from sklearn.model_selection import train_test_split
-
 # from sklearn.linear_model import LinearRegression
 from sklearn import tree
 import graphviz
-from graphviz import Digraph
+# from graphviz import Digraph
 
-dot = Digraph(comment='haha, benis')
+# dot = Digraph(comment='haha, benis')
 
 # from sklearn.metrics import mean_absolute_error, r2_score, median_absolute_error
-df = pd.read_csv('german.data', sep='\t')
+
+playlists = pd.read_csv('donnees/playlists.data', sep='\t')
+tracks = pd.read_csv('donnees/tracks.data', sep='\t')
 
 # print('dtype: ', data.dtypes)
 # print('shape: ', data.shape)
@@ -40,25 +40,25 @@ duration	credit_history	purpose	credit_amount	savings_status	employment	installm
 # df.purpose.value_counts().plot.pie(figsize=[5,5])
 # plt.show()
 
-dfbin = pd.get_dummies(df.iloc[:,:20])
+# dfbin = pd.get_dummies(df.iloc[:, :20])
 # print(dfbin.describe())
 
-dfmca = mca(dfbin, benzecri=False)
-nc = dfmca.fs_r(N=61)
+# dfmca = mca(dfbin, benzecri=False)
+# nc = dfmca.fs_r(N=61)
 # nc.shape -> (1000, 45) -> passe de 61 à 45 variables car certaines sont redondantes
 
 # print(nc)
 
-pd.DataFrame(nc)
+# pd.DataFrame(nc)
 
 # print(df)
-classe = df.iloc[:,-1]
+# classe = df.iloc[:,-1]
 # print(df)
 
 # algo = tree.DecisionTreeClassifier(max_depth=2) # pré-élagage
 algo = tree.DecisionTreeClassifier(max_depth=10)  # pré-élagage
-monModele = algo.fit(nc, classe)  # fonction ajustement
-print(monModele.score(nc, classe))  # mesure de qualité
+# monModele = algo.fit(nc, classe)  # fonction ajustement
+# print(monModele.score(nc, classe))  # mesure de qualité
 
 data = tree.export_graphviz(algo, '28_stab_wounds.dot', max_depth=100)
 graphviz.Source(data)
