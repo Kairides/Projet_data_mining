@@ -1,10 +1,12 @@
+import matplotlib.pyplot as plt
 import pandas as pd
 
 playlists = pd.read_csv('donnees/playlists.data', sep='\t')
 tracks = pd.read_csv('donnees/tracks.data', sep='\t')
 
+#2.1
+# création dictionnaire
 track_dict = {}
-
 for i in range(0, tracks.index[-1]+1):
     val = []
     track_dict[tracks.at[i,'url']] = val
@@ -12,18 +14,20 @@ for i in range(0, tracks.index[-1]+1):
 for i in range(0, playlists.index[-1]+1):
     track_dict[playlists.at[i,'url']].append(playlists.at[i, 'position'])
 
+# création colonnes vides
 tracks['pos_pic']=''
 tracks['pic15']=''
 tracks['livespan']=''
 tracks['pos_avg']=''
 tracks['avg15']=''
 
+#remplissage des colonnes
 for i in range(0, tracks.index[-1]+1):
 
-    min = min(track_dict[tracks.at[i, 'url']])
-    tracks.at[i, 'pos_pic'] = min
+    pic = min(track_dict[tracks.at[i, 'url']])
+    tracks.at[i, 'pos_pic'] = pic
 
-    tracks.at[i, 'pic15'] = int(min < 15)
+    tracks.at[i, 'pic15'] = int(pic < 15)
     
     livespan = len(track_dict[tracks.at[i, 'url']])
     tracks.at[i, 'livespan'] = livespan
@@ -33,4 +37,11 @@ for i in range(0, tracks.index[-1]+1):
 
     tracks.at[i, 'avg15'] = int(position_moyenne < 15)
 
-print(tracks)
+
+#2.2
+subset = set([])
+metal = playlists[playlists['playlist']=='metal']
+for i in range(metal.index[0], metal.index[-1]+1):
+    subset.add(metal.at[i, 'url'])
+
+print(subset)
