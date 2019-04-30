@@ -20,9 +20,10 @@ tracks['avg15']=''
 
 for i in range(0, tracks.index[-1]+1):
 
-    tracks.at[i, 'pos_pic'] = min(track_dict[tracks.at[i, 'url']])
+    min = min(track_dict[tracks.at[i, 'url']])
+    tracks.at[i, 'pos_pic'] = min
 
-    tracks.at[i, 'pic15'] = int(min(track_dict[tracks.at[i, 'url']]) < 15)
+    tracks.at[i, 'pic15'] = int(min < 15)
     
     livespan = len(track_dict[tracks.at[i, 'url']])
     tracks.at[i, 'livespan'] = livespan
