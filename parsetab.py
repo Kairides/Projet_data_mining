@@ -27,9 +27,9 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> def","S'",1,None,None,None),
-  ('def -> text','def',1,'p_file','parser.py',39),
-  ('text -> line','text',1,'p_text','parser.py',42),
-  ('text -> line NEWLINE text','text',3,'p_text','parser.py',43),
-  ('line -> STRING','line',1,'p_line','parser.py',46),
-  ('line -> STRING TAB line','line',3,'p_line','parser.py',47),
+  ('def -> text','def',1,'p_file','parser.py',49),
+  ('text -> line','text',1,'p_text','parser.py',52),
+  ('text -> line NEWLINE text','text',3,'p_text','parser.py',53),
+  ('line -> STRING','line',1,'p_line','parser.py',56),
+  ('line -> STRING TAB line','line',3,'p_line','parser.py',57),
 ]

@@ -15,7 +15,10 @@ import graphviz
 # from sklearn.metrics import mean_absolute_error, r2_score, median_absolute_error
 
 playlists = pd.read_csv('donnees/playlists.data', sep='\t')
+print("lecture donnee/playlists.data réussie")
+
 tracks = pd.read_csv('donnees/tracks.data', sep='\t')
+print("lecture donnee/tracks.data réussie")
 
 # print('dtype: ', data.dtypes)
 # print('shape: ', data.shape)
@@ -75,11 +78,11 @@ m.fit(X_train, y_train)
 prediction = m.predict(X_test)
 # print('Coefficients: \n', m.coef_)
 def evaluation(y_test, prediction):
-	# The mean squared error
-	print("Mean absolute error: %.2f"% mean_absolute_error(y_test, prediction))
-	print("Median absolute error: %.2f"% median_absolute_error(y_test, prediction))
-	# Explained variance score: 1 is perfect prediction
-	print('Variance score: %.2f' % r2_score(y_test, prediction))
+    # The mean squared error
+    print("Mean absolute error: %.2f"% mean_absolute_error(y_test, prediction))
+    print("Median absolute error: %.2f"% median_absolute_error(y_test, prediction))
+    # Explained variance score: 1 is perfect prediction
+    print('Variance score: %.2f' % r2_score(y_test, prediction))
 
 evaluation(y_test, prediction)
 

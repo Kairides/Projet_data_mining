@@ -1,5 +1,5 @@
 from ply import lex, yacc
-import re
+# import re
 
 
 # @profile
@@ -13,26 +13,25 @@ def myparse(filepath, newfile):
         'NEWLINE',
     )
 
-
     def t_STRING(t):
-        r'[-,.!?:/"#&éèàê\w\\\\[\]\(\)\s"\']+'
+        r"""[-,.!?:/#&éèàê\w\\\\[\]\(\)\s\'\"]+"""
         print(t)
         return t
 
     def t_TAB(t):
-        r'\t'
+        r"""\t"""
         print("    ")
         newfile.write("\t")
         return t
 
     def t_NEWLINE(t):
-        r'\n'
+        r"""\n"""
         print("\n")
         newfile.write("\n")
         return t
 
     # ignore
-    t_ignore = ' \r'
+    t_ignore = '\r '
 
     # error handeling in lexer
     def t_error(t):
@@ -57,10 +56,12 @@ def myparse(filepath, newfile):
         '''line : STRING
                 | STRING TAB line'''
 
-        if len(p) == 3:
-            e = str(p[2])
-        else:
+        print(str(p))
+
+        if len(p) == 2:
             e = str(p[1])
+        else:
+            e = str(p[3])
 
         print(e)
         newfile.write(e)
