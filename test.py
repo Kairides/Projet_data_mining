@@ -14,4 +14,19 @@ for i in range(0, playlists.index[-1]+1):
 
 for i in track_dict:
     print(track_dict[i])
+    position_pic = min(track_dict[i])
+
+    duree = len(track_dict[i])
+
+    position_moyenne = sum(track_dict[i])/duree
+
+    if position_pic < 15 :
+        indic_pic = 1
+    else:
+        indic_pic = 0
+
+    if position_moyenne < 15:
+        indic_moyenne = 1
+    else:
+        indic_moyenne = 0
 
