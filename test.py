@@ -12,6 +12,12 @@ for i in range(0, tracks.index[-1]+1):
 for i in range(0, playlists.index[-1]+1):
     track_dict[playlists.at[i,'url']].append(playlists.at[i, 'position'])
 
+tracks['pos_pic']=''
+tracks['pic15']=''
+tracks['livespan']=''
+tracks['pos_avg']=''
+tracks['avg15']=''
+
 for i in track_dict:
     print(track_dict[i])
     position_pic = min(track_dict[i])
