@@ -18,21 +18,24 @@ tracks['livespan']=''
 tracks['pos_avg']=''
 tracks['avg15']=''
 
-for i in track_dict:
-    print(track_dict[i])
-    position_pic = min(track_dict[i])
+for i in range(0, tracks.index[-1]+1):
 
-    duree = len(track_dict[i])
+    tracks.at[i, 'pos_pic'] = min(track_dict[tracks.at[i, 'url']])
 
-    position_moyenne = sum(track_dict[i])/duree
-
-    if position_pic < 15 :
-        indic_pic = 1
+    if min(track_dict[tracks.at[i, 'url']]) < 15 :
+        tracks.at[i, 'pic15'] = 1
     else:
-        indic_pic = 0
+        tracks.at[i, 'pic15'] = 0
+    
+    livespan = len(track_dict[tracks.at[i, 'url']])
+    tracks.at[i, 'livespan'] = livespan
+
+    position_moyenne = sum(track_dict[tracks.at[i, 'url']])/livespan
+    tracks.at[i, 'pos_avg'] = position_moyenne
 
     if position_moyenne < 15:
-        indic_moyenne = 1
+        tracks.at[i, 'avg15'] = 1
     else:
-        indic_moyenne = 0
+        tracks.at[i, 'avg15'] = 0
 
+print(tracks)
