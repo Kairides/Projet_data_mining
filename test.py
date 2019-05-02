@@ -51,9 +51,15 @@ for i in range(metal.index[0], metal.index[-1]+1):
          - stocker le resultat dans un nouveau dataframe'''
 
 metaltracks = tracks
+
 for i in range(0, tracks.index[-1]+1):
-    if(tracks.at[i, 'url'] not in subset):
+    if tracks.at[i, 'url'] not in subset:
         metaltracks = metaltracks.drop(i)
 
 boxplot = metaltracks.boxplot()
-plt.show()
+
+print(metaltracks)
+
+metaltracks = pd.get_dummies(metaltracks, columns={'Key'})
+
+print(metaltracks)
