@@ -1,10 +1,10 @@
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import pandas as pd
 
 playlists = pd.read_csv('donnees/playlists.data', sep='\t')
 tracks = pd.read_csv('donnees/tracks.data', sep='\t')
 
-#2.1
+# 2.1
 # création dictionnaire
 track_dict = {}
 for i in range(0, tracks.index[-1]+1):
@@ -21,7 +21,7 @@ tracks['livespan']=''
 tracks['pos_avg']=''
 tracks['avg15']=''
 
-#remplissage des colonnes
+# remplissage des colonnes
 for i in range(0, tracks.index[-1]+1):
 
     pic = min(track_dict[tracks.at[i, 'url']])
@@ -38,10 +38,16 @@ for i in range(0, tracks.index[-1]+1):
     tracks.at[i, 'avg15'] = int(position_moyenne < 15)
 
 
-#2.2
+# 2.2
 subset = set([])
-metal = playlists[playlists['playlist']=='metal']
+metal = playlists[playlists['playlist'] == 'metal']
 for i in range(metal.index[0], metal.index[-1]+1):
     subset.add(metal.at[i, 'url'])
 
+# df_subset = pd.DataFrame(subset)
+
 print(subset)
+
+'''TODO: - créer un dataframe contenant une fois chaque morceaux metal ->v df_metal,
+         - utiliser le méthode get_dummies pour remplacer la variable catégorique key: pd.get_dummies(df_metal, key)
+         - stocker le resultat dans un nouveau dataframe'''
