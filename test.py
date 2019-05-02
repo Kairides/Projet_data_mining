@@ -1,4 +1,4 @@
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import pandas as pd
 
 playlists = pd.read_csv('donnees/playlists.data', sep='\t')
@@ -46,8 +46,14 @@ for i in range(metal.index[0], metal.index[-1]+1):
 
 # df_subset = pd.DataFrame(subset)
 
-print(subset)
-
 '''TODO: - créer un dataframe contenant une fois chaque morceaux metal ->v df_metal,
          - utiliser le méthode get_dummies pour remplacer la variable catégorique key: pd.get_dummies(df_metal, key)
          - stocker le resultat dans un nouveau dataframe'''
+
+metaltracks = tracks
+for i in range(0, tracks.index[-1]+1):
+    if(tracks.at[i, 'url'] not in subset):
+        metaltracks = metaltracks.drop(i)
+
+boxplot = metaltracks.boxplot()
+plt.show()
