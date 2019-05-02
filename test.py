@@ -45,10 +45,34 @@ for i in range(0, tracks.index[-1]+1):
 '''hmap = sb.heatmap(tracks.corr(), annot=True)
 plt.show()'''
 
+# affiche le morceau moyen d'un playlist
+
+
+def print_mean_track(playlist):
+
+    mean_track = playlist.mean(axis=0)
+
+    for index in range(7):
+        print(mean_track.index[index], ':', mean_track[index])
+
+    key_max = ['', 0]
+    for index in range(8, 19):
+        if mean_track[index] > key_max[1]:
+            key_max[0] = mean_track.index[index]
+            key_max[1] = mean_track[index]
+
+    print(key_max[0], key_max[1])
+
+    if mean_track[20] > 0.5:
+        print('Mode Mineur', mean_track[20])
+    else:
+        print('Mode Majeur', mean_track[20])
+
+
 tracks = pd.get_dummies(tracks, columns=['Key'])
 tracks = pd.get_dummies(tracks, columns=['Mode'], drop_first=True)
 
-#Metal tracks
+# Metal tracks
 metalset = set([])
 metal = playlists[playlists['playlist'] == 'metal']
 for i in range(metal.index[0], metal.index[-1]+1):
@@ -70,12 +94,26 @@ metaltracks.plot(x='Danceability', y=['Valence', 'BPM', 'Energy', 'Acousticness'
 plt.show()'''
 
 print('Chanson metal moyenne')
-print(metaltracks.mean(axis=0))
-print(sk.normalize(metaltracks.iloc[0:,2:]))
+print_mean_track(metaltracks)
+
+min_dist = [1000000, '']
+
+norm_metal = (sk.normalize(metaltracks.iloc[0:, 2:]))
+print(norm_metal)
+
+for i in range(1, len(metaltracks)):
+    dist = np.linalg.norm(norm_metal[i], ord=-1)
+    if dist < min_dist[0]:
+        min_dist[0] = dist
+        min_dist[1] = i
+
+print(min_dist[0], min_dist[1])
+
+# print(np.linalg.norm(sk.normalize(metaltracks.iloc[0:, 2:]), ord=-1, keepdims=True))
 print('#######################\n')
 
 
-#fr tracks
+# fr tracks
 frset = set([])
 fr = playlists[playlists['playlist'] == 'fr']
 for i in range(fr.index[0], fr.index[-1]+1):
@@ -88,14 +126,14 @@ for i in range(0, tracks.index[-1]+1):
         frtracks = frtracks.drop(i)
 
 print('Chanson fr moyenne')
-print(frtracks.mean(axis=0))
+print_mean_track(frtracks)
 print('#######################\n')
 
 
-#jazz tracks
+# jazz tracks
 jazzset = set([])
 jazz = playlists[playlists['playlist'] == 'jazz']
-jazz = jazz.reset_index(drop=True)#reindexation sinon problème car playlist coupée
+jazz = jazz.reset_index(drop=True)  # reindexation sinon problème car playlist coupée
 for i in range(jazz.index[0], jazz.index[-1]+1):
     jazzset.add(jazz.at[i, 'url'])
 
@@ -106,11 +144,11 @@ for i in range(0, tracks.index[-1]+1):
         jazztracks = jazztracks.drop(i)
 
 print('Chanson jazz moyenne')
-print(jazztracks.mean(axis=0))
+print_mean_track(jazztracks)
 print('#######################\n')
 
 
-#lovepop tracks
+# lovepop tracks
 popset = set([])
 pop = playlists[playlists['playlist'] == 'lovepop']
 for i in range(pop.index[0], pop.index[-1]+1):
@@ -123,11 +161,11 @@ for i in range(0, tracks.index[-1]+1):
         poptracks = poptracks.drop(i)
 
 print('Chanson pop moyenne')
-print(poptracks.mean(axis=0))
+print_mean_track(poptracks)
 print('#######################\n')
 
 
-#electro tracks
+# electro tracks
 electroset = set([])
 electro = playlists[playlists['playlist'] == 'electro']
 for i in range(electro.index[0], electro.index[-1]+1):
@@ -140,5 +178,6 @@ for i in range(0, tracks.index[-1]+1):
         electrotracks = electrotracks.drop(i)
 
 print('Chanson electro moyenne')
-print(electrotracks.mean(axis=0))
+print_mean_track(electrotracks)
 print('#######################\n')
+
