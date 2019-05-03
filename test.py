@@ -117,6 +117,15 @@ morceau_metal_plus_moyen = closer_mean(norm_metal)
 metaltracks = metaltracks.reset_index(drop=True)
 print(metaltracks.at[morceau_metal_plus_moyen, 'url'])
 
+bestmetalsong = ''
+moy = 100
+for i in range(metaltracks.index[0], metaltracks.index[-1]+1):
+        this_moy = np.mean(track_dict[metaltracks.at[i,'url']])
+        if moy > this_moy:
+                moy = this_moy
+                bestmetalsong = metaltracks.at[i,'url']
+
+print(bestmetalsong)
 print('#######################\n')
 
 
@@ -143,6 +152,16 @@ morceau_fr_plus_moyen = closer_mean(norm_fr)
 morceau_fr_plus_moyen = closer_mean(norm_fr)
 frtracks = frtracks.reset_index(drop=True)
 print(frtracks.at[morceau_fr_plus_moyen, 'url'])
+
+bestmetalsong = ''
+moy = 100
+for i in range(metaltracks.index[0], metaltracks.index[-1]+1):
+        this_moy = np.mean(track_dict[metaltracks.at[i,'url']])
+        if moy > this_moy:
+                moy = this_moy
+                bestmetalsong = metaltracks.at[i,'url']
+
+print(bestmetalsong)
 print('#######################\n')
 
 
