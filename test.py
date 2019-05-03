@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sb
 import sklearn.preprocessing as sk
+import sklearn.decomposition as skdecomp
 import numpy as np
 
 playlists = pd.read_csv('donnees/playlists.data', sep='\t')
@@ -42,8 +43,11 @@ for i in range(0, tracks.index[-1]+1):
 
 
 # 2.2
-'''hmap = sb.heatmap(tracks.corr(), annot=True)
-plt.show()'''
+hmap = sb.heatmap(tracks.corr(), annot=True)
+plt.show()
+
+# ################################# CUSTOM FUNCTIONS #############################################
+
 
 # affiche le morceau moyen d'un playlist
 
@@ -93,6 +97,20 @@ def print_closest_mean(playlist):
     print("\nmorceau plus moyen: ", playlist.at[morceau_plus_moyen, 'url'])
 
 
+def print_best_track(playlist):
+    moy = 100
+    best_track = ''
+    for i in range(len(playlist)):
+        this_moy = np.mean(track_dict[playlist.at[i, 'url']])
+        if moy > this_moy:
+            moy = this_moy
+            best_track = playlist.at[i, 'url']
+
+    print("Morceau mieux classé", best_track)
+
+
+#######################################################################################################
+
 tracks = pd.get_dummies(tracks, columns=['Key'])
 tracks = pd.get_dummies(tracks, columns=['Mode'], drop_first=True)
 
@@ -108,29 +126,24 @@ for i in range(0, tracks.index[-1]+1):
     if tracks.at[i, 'url'] not in metalset:
         metaltracks = metaltracks.drop(i)
 
-'''boxplot = metaltracks.boxplot()
+boxplot = metaltracks.boxplot()
 plt.show()
 plt.hist(metaltracks['BPM'], bins=50)
 plt.show()
 plt.hist(metaltracks['Danceability'], bins=90)
 plt.show()
 metaltracks.plot(x='Danceability', y=['Valence', 'BPM', 'Energy', 'Acousticness', 'Instrumentalness'], kind='bar')
-plt.show()'''
+plt.show()
 
-print('Chanson metal moyenne')
+print('Chanson metal moyenne :')
 print_mean_track(metaltracks)
+
 metaltracks = metaltracks.reset_index(drop=True)
+
 print_closest_mean(metaltracks)
 
-bestmetalsong = ''
-moy = 100
-for i in range(metaltracks.index[0], metaltracks.index[-1]+1):
-    this_moy = np.mean(track_dict[metaltracks.at[i, 'url']])
-    if moy > this_moy:
-        moy = this_moy
-        bestmetalsong = metaltracks.at[i, 'url']
+print_best_track(metaltracks)
 
-print(bestmetalsong)
 print('#######################\n')
 
 
@@ -146,20 +159,15 @@ for i in range(0, tracks.index[-1]+1):
     if tracks.at[i, 'url'] not in frset:
         frtracks = frtracks.drop(i)
 
-print('Chanson fr moyenne')
+print('Chanson fr moyenne :')
 print_mean_track(frtracks)
+
 frtracks = frtracks.reset_index(drop=True)
+
 print_closest_mean(frtracks)
 
-bestfrsong = ''
-moy = 100
-for i in range(frtracks.index[0], frtracks.index[-1]+1):
-        this_moy = np.mean(track_dict[frtracks.at[i, 'url']])
-        if moy > this_moy:
-                moy = this_moy
-                bestfrsong = frtracks.at[i,'url']
+print_best_track(frtracks)
 
-print(bestfrsong)
 print('#######################\n')
 
 
@@ -176,20 +184,15 @@ for i in range(0, tracks.index[-1]+1):
     if tracks.at[i, 'url'] not in jazzset:
         jazztracks = jazztracks.drop(i)
 
-print('Chanson jazz moyenne')
+print('Chanson jazz moyenne:')
 print_mean_track(jazztracks)
+
 jazztracks = jazztracks.reset_index(drop=True)
+
 print_closest_mean(jazztracks)
 
-bestjazzsong = ''
-moy = 100
-for i in range(jazztracks.index[0], jazztracks.index[-1]+1):
-        this_moy = np.mean(track_dict[jazztracks.at[i, 'url']])
-        if moy > this_moy:
-                moy = this_moy
-                bestjazzsong = jazztracks.at[i, 'url']
+print_best_track(jazztracks)
 
-print(bestjazzsong)
 print('#######################\n')
 
 
@@ -205,20 +208,15 @@ for i in range(0, tracks.index[-1]+1):
     if tracks.at[i, 'url'] not in popset:
         poptracks = poptracks.drop(i)
 
-print('Chanson pop moyenne')
+print('Chanson pop moyenne:')
 print_mean_track(poptracks)
+
 poptracks = poptracks.reset_index(drop=True)
+
 print_closest_mean(poptracks)
 
-bestpopsong = ''
-moy = 100
-for i in range(poptracks.index[0], poptracks.index[-1]+1):
-        this_moy = np.mean(track_dict[poptracks.at[i, 'url']])
-        if moy > this_moy:
-                moy = this_moy
-                bestpopsong = poptracks.at[i, 'url']
+print_best_track(poptracks)
 
-print(bestpopsong)
 print('#######################\n')
 
 
@@ -234,20 +232,15 @@ for i in range(0, tracks.index[-1]+1):
     if tracks.at[i, 'url'] not in electroset:
         electrotracks = electrotracks.drop(i)
 
-print('Chanson electro moyenne')
+print('Chanson electro moyenne:')
 print_mean_track(electrotracks)
+
 electrotracks = electrotracks.reset_index(drop=True)
+
 print_closest_mean(electrotracks)
 
-bestelectrosong = ''
-moy = 100
-for i in range(electrotracks.index[0], electrotracks.index[-1]+1):
-        this_moy = np.mean(track_dict[electrotracks.at[i, 'url']])
-        if moy > this_moy:
-                moy = this_moy
-                bestelectrosong = electrotracks.at[i, 'url']
+print_best_track(electrotracks)
 
-print(bestelectrosong)
 print('#######################\n')
 
 # On cherche l'évolution du classemement de Chop Suey
@@ -260,3 +253,6 @@ plt.show()
 
 
 # 2.3
+
+'''acp = skdecomp.PCA(n_components=2)
+acp.fit(metaltracks.iloc[])'''
