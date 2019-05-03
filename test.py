@@ -49,6 +49,18 @@ plt.show()'''
 # affiche le morceau moyen d'un playlist
 
 
+def closer_mean(norm_playlist):
+    min_dist = [1000000, '']
+    zero = np.full(25, 0)
+
+    for i in range(1, len(norm_playlist)):
+        dist = scp.euclidean(zero, norm_playlist[i])
+        if dist < min_dist[0]:
+            min_dist[0] = dist
+            min_dist[1] = i
+
+    return min_dist[1]
+
 def print_mean_track(playlist):
 
     mean_track = playlist.mean(axis=0)
@@ -97,20 +109,12 @@ plt.show()'''
 print('Chanson metal moyenne')
 print_mean_track(metaltracks)
 
-min_dist = [1000000, '']
-
 norm_metal = (sk.normalize(metaltracks.iloc[0:, 2:]))
 print(norm_metal)
 
-zero = np.full(25, 0)
-print(zero)
-for i in range(1, len(metaltracks)):
-    dist = scp.euclidean(zero, norm_metal[i])
-    if dist < min_dist[0]:
-        min_dist[0] = dist
-        min_dist[1] = i
+morceau_metal_plus_moyen = closer_mean(norm_metal)
 
-print(min_dist[0], min_dist[1])
+print(morceau_metal_plus_moyen)
 
 print('#######################\n')
 
@@ -129,6 +133,12 @@ for i in range(0, tracks.index[-1]+1):
 
 print('Chanson fr moyenne')
 print_mean_track(frtracks)
+
+norm_fr = (sk.normalize(frtracks.iloc[0:, 2:]))
+
+morceau_fr_plus_moyen = closer_mean(norm_fr)
+
+print(morceau_fr_plus_moyen)
 print('#######################\n')
 
 
@@ -147,6 +157,12 @@ for i in range(0, tracks.index[-1]+1):
 
 print('Chanson jazz moyenne')
 print_mean_track(jazztracks)
+
+norm_jazz = (sk.normalize(jazztracks.iloc[0:, 2:]))
+
+morceau_jazz_plus_moyen = closer_mean(norm_jazz)
+
+print(morceau_jazz_plus_moyen)
 print('#######################\n')
 
 
@@ -164,6 +180,11 @@ for i in range(0, tracks.index[-1]+1):
 
 print('Chanson pop moyenne')
 print_mean_track(poptracks)
+
+norm_pop = (sk.normalize(poptracks.iloc[0:, 2:]))
+
+morceau_pop_plus_moyen = closer_mean(norm_pop)
+print(morceau_pop_plus_moyen)
 print('#######################\n')
 
 
@@ -181,5 +202,11 @@ for i in range(0, tracks.index[-1]+1):
 
 print('Chanson electro moyenne')
 print_mean_track(electrotracks)
+
+norm_electro = (sk.normalize(electrotracks.iloc[0:, 2:]))
+
+morceau_electro_plus_moyen = closer_mean(norm_electro)
+
+print(morceau_electro_plus_moyen)
 print('#######################\n')
 
