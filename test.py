@@ -43,8 +43,8 @@ for i in range(0, tracks.index[-1]+1):
 
 
 # 2.2
-hmap = sb.heatmap(tracks.corr(), annot=True)
-plt.show()
+'''hmap = sb.heatmap(tracks.corr(), annot=True)
+plt.show()'''
 
 # ################################# CUSTOM FUNCTIONS #############################################
 
@@ -126,14 +126,14 @@ for i in range(0, tracks.index[-1]+1):
     if tracks.at[i, 'url'] not in metalset:
         metaltracks = metaltracks.drop(i)
 
-boxplot = metaltracks.boxplot()
+'''boxplot = metaltracks.boxplot()
 plt.show()
 plt.hist(metaltracks['BPM'], bins=50)
 plt.show()
 plt.hist(metaltracks['Danceability'], bins=90)
 plt.show()
 metaltracks.plot(x='Danceability', y=['Valence', 'BPM', 'Energy', 'Acousticness', 'Instrumentalness'], kind='bar')
-plt.show()
+plt.show()'''
 
 print('Chanson metal moyenne :')
 print_mean_track(metaltracks)
@@ -248,11 +248,16 @@ print('#######################\n')
 chop_suey_chart = metal[metal['url'] == metaltracks.at[234, 'url']]
 chop_suey_sorted = chop_suey_chart.sort_values('date')
 
-chop_suey_sorted.plot(x='date', y='position', kind='line')
-plt.show()
+''' chop_suey_sorted.plot(x='date', y='position', kind='line')
+plt.show() '''
 
 
 # 2.3
 
-'''acp = skdecomp.PCA(n_components=2)
-acp.fit(metaltracks.iloc[])'''
+acp = skdecomp.PCA(n_components=2)
+
+metal_acp = acp.fit_transform(metaltracks.iloc[:, 2:11])
+
+plt.scatter(metal_acp[:, 0], metal_acp[:, 1])
+
+plt.show()
