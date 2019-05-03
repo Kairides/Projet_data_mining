@@ -51,11 +51,12 @@ plt.show()'''
 
 def closer_mean(norm_playlist):
     min_dist = [1000000, '']
-    zero = np.full(25, 0)
+    zero = np.full(len(norm_playlist), 0)
+    norm_playlist = norm_playlist.values
 
-    for i in range(1, len(norm_playlist)):
-        dist = scp.euclidean(zero, norm_playlist[i])
-        if dist < min_dist[0]:
+    for i in range(0, len(norm_playlist)):
+        dist = sum(np.power(norm_playlist[i], 2))**(1/2)
+        if dist <= min_dist[0]:
             min_dist[0] = dist
             min_dist[1] = i
 
@@ -109,12 +110,12 @@ plt.show()'''
 print('Chanson metal moyenne')
 print_mean_track(metaltracks)
 
-norm_metal = (sk.normalize(metaltracks.iloc[0:, 2:]))
-print(norm_metal)
+metaltrackscopy = metaltracks.drop(['url', 'pos_pic', 'pic15', 'livespan', 'pos_avg', 'avg15'], axis=1)
+norm_metal = (metaltrackscopy.sub(metaltrackscopy.mean(axis=0))).div(metaltrackscopy.std(axis=0))
 
 morceau_metal_plus_moyen = closer_mean(norm_metal)
-
-print(morceau_metal_plus_moyen)
+metaltracks = metaltracks.reset_index(drop=True)
+print(metaltracks.at[morceau_metal_plus_moyen, 'url'])
 
 print('#######################\n')
 
@@ -134,7 +135,8 @@ for i in range(0, tracks.index[-1]+1):
 print('Chanson fr moyenne')
 print_mean_track(frtracks)
 
-norm_fr = (sk.normalize(frtracks.iloc[0:, 2:]))
+frtrackscopy = frtracks.drop(['url', 'pos_pic', 'pic15', 'livespan', 'pos_avg', 'avg15'], axis=1)
+norm_fr = (frtrackscopy.sub(frtrackscopy.mean(axis=0))).div(frtrackscopy.std(axis=0))
 
 morceau_fr_plus_moyen = closer_mean(norm_fr)
 
@@ -158,7 +160,9 @@ for i in range(0, tracks.index[-1]+1):
 print('Chanson jazz moyenne')
 print_mean_track(jazztracks)
 
-norm_jazz = (sk.normalize(jazztracks.iloc[0:, 2:]))
+jazztrackscopy = jazztracks.drop(['url', 'pos_pic', 'pic15', 'livespan', 'pos_avg', 'avg15'], axis=1)
+norm_jazz = (jazztrackscopy.sub(jazztrackscopy.mean(axis=0))).div(jazztrackscopy.std(axis=0))
+
 
 morceau_jazz_plus_moyen = closer_mean(norm_jazz)
 
@@ -181,7 +185,8 @@ for i in range(0, tracks.index[-1]+1):
 print('Chanson pop moyenne')
 print_mean_track(poptracks)
 
-norm_pop = (sk.normalize(poptracks.iloc[0:, 2:]))
+poptrackscopy = poptracks.drop(['url', 'pos_pic', 'pic15', 'livespan', 'pos_avg', 'avg15'], axis=1)
+norm_pop = (poptrackscopy.sub(poptrackscopy.mean(axis=0))).div(poptrackscopy.std(axis=0))
 
 morceau_pop_plus_moyen = closer_mean(norm_pop)
 print(morceau_pop_plus_moyen)
@@ -203,10 +208,10 @@ for i in range(0, tracks.index[-1]+1):
 print('Chanson electro moyenne')
 print_mean_track(electrotracks)
 
-norm_electro = (sk.normalize(electrotracks.iloc[0:, 2:]))
+electrotrackscopy = electrotracks.drop(['url', 'pos_pic', 'pic15', 'livespan', 'pos_avg', 'avg15'], axis=1)
+norm_electro = (electrotrackscopy.sub(electrotrackscopy.mean(axis=0))).div(electrotrackscopy.std(axis=0))
 
 morceau_electro_plus_moyen = closer_mean(norm_electro)
 
 print(morceau_electro_plus_moyen)
 print('#######################\n')
-
