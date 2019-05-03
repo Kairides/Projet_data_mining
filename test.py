@@ -140,7 +140,9 @@ norm_fr = (frtrackscopy.sub(frtrackscopy.mean(axis=0))).div(frtrackscopy.std(axi
 
 morceau_fr_plus_moyen = closer_mean(norm_fr)
 
-print(morceau_fr_plus_moyen)
+morceau_fr_plus_moyen = closer_mean(norm_fr)
+frtracks = frtracks.reset_index(drop=True)
+print(frtracks.at[morceau_fr_plus_moyen, 'url'])
 print('#######################\n')
 
 
@@ -166,7 +168,9 @@ norm_jazz = (jazztrackscopy.sub(jazztrackscopy.mean(axis=0))).div(jazztrackscopy
 
 morceau_jazz_plus_moyen = closer_mean(norm_jazz)
 
-print(morceau_jazz_plus_moyen)
+morceau_jazz_plus_moyen = closer_mean(norm_jazz)
+jazztracks = jazztracks.reset_index(drop=True)
+print(jazztracks.at[morceau_jazz_plus_moyen, 'url'])
 print('#######################\n')
 
 
@@ -189,7 +193,10 @@ poptrackscopy = poptracks.drop(['url', 'pos_pic', 'pic15', 'livespan', 'pos_avg'
 norm_pop = (poptrackscopy.sub(poptrackscopy.mean(axis=0))).div(poptrackscopy.std(axis=0))
 
 morceau_pop_plus_moyen = closer_mean(norm_pop)
-print(morceau_pop_plus_moyen)
+
+morceau_pop_plus_moyen = closer_mean(norm_pop)
+poptracks = poptracks.reset_index(drop=True)
+print(poptracks.at[morceau_pop_plus_moyen, 'url'])
 print('#######################\n')
 
 
@@ -213,5 +220,7 @@ norm_electro = (electrotrackscopy.sub(electrotrackscopy.mean(axis=0))).div(elect
 
 morceau_electro_plus_moyen = closer_mean(norm_electro)
 
-print(morceau_electro_plus_moyen)
+morceau_electro_plus_moyen = closer_mean(norm_electro)
+electrotracks = electrotracks.reset_index(drop=True)
+print(electrotracks.at[morceau_electro_plus_moyen, 'url'])
 print('#######################\n')
