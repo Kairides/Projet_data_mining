@@ -256,8 +256,17 @@ plt.show() '''
 
 acp = skdecomp.PCA(n_components=2)
 
-metal_acp = acp.fit_transform(metaltracks.iloc[:, 2:11])
+# Essais d'ACP sur les morceaux metal
+'''metal_acp = acp.fit_transform(metaltracks.iloc[:, 2:11])
 
 plt.scatter(metal_acp[:, 0], metal_acp[:, 1])
+
+plt.show()'''
+
+
+# Essais d'ACP sur tous les morceaux
+total_acp = acp.fit_transform(tracks.iloc[:, 2:11])
+
+plt.scatter(total_acp[:, 0], total_acp[:, 1])
 
 plt.show()
