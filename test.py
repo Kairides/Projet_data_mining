@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sb
 import sklearn.preprocessing as sk
-import scipy.spatial.distance as scp
 import numpy as np
 
 playlists = pd.read_csv('donnees/playlists.data', sep='\t')
@@ -13,7 +12,7 @@ tracks = pd.read_csv('donnees/tracks.data', sep='\t')
 track_dict = {}
 for i in range(0, tracks.index[-1]+1):
     val = []
-    track_dict[tracks.at[i,'url']] = val
+    track_dict[tracks.at[i, 'url']] = val
 
 for i in range(0, playlists.index[-1]+1):
     track_dict[playlists.at[i,'url']].append(playlists.at[i, 'position'])
@@ -62,6 +61,7 @@ def closer_mean(norm_playlist):
 
     return min_dist[1]
 
+
 def print_mean_track(playlist):
 
     mean_track = playlist.mean(axis=0)
@@ -81,6 +81,16 @@ def print_mean_track(playlist):
         print('Mode Mineur', mean_track[20])
     else:
         print('Mode Majeur', mean_track[20])
+
+
+def print_closest_mean(playlist):
+    playlist_copy = playlist.drop(['url', 'pos_pic', 'pic15', 'livespan', 'pos_avg', 'avg15'], axis=1)
+    norm_playlist = (playlist_copy.sub(playlist_copy.mean(axis=0))).div(playlist_copy.std(axis=0))
+
+    morceau_plus_moyen = closer_mean(norm_playlist)
+    # playlist = playlist.reset_index(drop=True)
+
+    print("\nmorceau plus moyen: ", playlist.at[morceau_plus_moyen, 'url'])
 
 
 tracks = pd.get_dummies(tracks, columns=['Key'])
@@ -109,21 +119,16 @@ plt.show()'''
 
 print('Chanson metal moyenne')
 print_mean_track(metaltracks)
-
-metaltrackscopy = metaltracks.drop(['url', 'pos_pic', 'pic15', 'livespan', 'pos_avg', 'avg15'], axis=1)
-norm_metal = (metaltrackscopy.sub(metaltrackscopy.mean(axis=0))).div(metaltrackscopy.std(axis=0))
-
-morceau_metal_plus_moyen = closer_mean(norm_metal)
 metaltracks = metaltracks.reset_index(drop=True)
-print(metaltracks.at[morceau_metal_plus_moyen, 'url'])
+print_closest_mean(metaltracks)
 
 bestmetalsong = ''
 moy = 100
 for i in range(metaltracks.index[0], metaltracks.index[-1]+1):
-        this_moy = np.mean(track_dict[metaltracks.at[i,'url']])
-        if moy > this_moy:
-                moy = this_moy
-                bestmetalsong = metaltracks.at[i,'url']
+    this_moy = np.mean(track_dict[metaltracks.at[i, 'url']])
+    if moy > this_moy:
+        moy = this_moy
+        bestmetalsong = metaltracks.at[i, 'url']
 
 print(bestmetalsong)
 print('#######################\n')
@@ -143,15 +148,8 @@ for i in range(0, tracks.index[-1]+1):
 
 print('Chanson fr moyenne')
 print_mean_track(frtracks)
-
-frtrackscopy = frtracks.drop(['url', 'pos_pic', 'pic15', 'livespan', 'pos_avg', 'avg15'], axis=1)
-norm_fr = (frtrackscopy.sub(frtrackscopy.mean(axis=0))).div(frtrackscopy.std(axis=0))
-
-morceau_fr_plus_moyen = closer_mean(norm_fr)
-
-morceau_fr_plus_moyen = closer_mean(norm_fr)
 frtracks = frtracks.reset_index(drop=True)
-print(frtracks.at[morceau_fr_plus_moyen, 'url'])
+print_closest_mean(frtracks)
 
 bestfrsong = ''
 moy = 100
@@ -180,16 +178,8 @@ for i in range(0, tracks.index[-1]+1):
 
 print('Chanson jazz moyenne')
 print_mean_track(jazztracks)
-
-jazztrackscopy = jazztracks.drop(['url', 'pos_pic', 'pic15', 'livespan', 'pos_avg', 'avg15'], axis=1)
-norm_jazz = (jazztrackscopy.sub(jazztrackscopy.mean(axis=0))).div(jazztrackscopy.std(axis=0))
-
-
-morceau_jazz_plus_moyen = closer_mean(norm_jazz)
-
-morceau_jazz_plus_moyen = closer_mean(norm_jazz)
 jazztracks = jazztracks.reset_index(drop=True)
-print(jazztracks.at[morceau_jazz_plus_moyen, 'url'])
+print_closest_mean(jazztracks)
 
 bestjazzsong = ''
 moy = 100
@@ -197,7 +187,7 @@ for i in range(jazztracks.index[0], jazztracks.index[-1]+1):
         this_moy = np.mean(track_dict[jazztracks.at[i, 'url']])
         if moy > this_moy:
                 moy = this_moy
-                bestjazzsong = jazztracks.at[i,'url']
+                bestjazzsong = jazztracks.at[i, 'url']
 
 print(bestjazzsong)
 print('#######################\n')
@@ -217,15 +207,8 @@ for i in range(0, tracks.index[-1]+1):
 
 print('Chanson pop moyenne')
 print_mean_track(poptracks)
-
-poptrackscopy = poptracks.drop(['url', 'pos_pic', 'pic15', 'livespan', 'pos_avg', 'avg15'], axis=1)
-norm_pop = (poptrackscopy.sub(poptrackscopy.mean(axis=0))).div(poptrackscopy.std(axis=0))
-
-morceau_pop_plus_moyen = closer_mean(norm_pop)
-
-morceau_pop_plus_moyen = closer_mean(norm_pop)
 poptracks = poptracks.reset_index(drop=True)
-print(poptracks.at[morceau_pop_plus_moyen, 'url'])
+print_closest_mean(poptracks)
 
 bestpopsong = ''
 moy = 100
@@ -233,7 +216,7 @@ for i in range(poptracks.index[0], poptracks.index[-1]+1):
         this_moy = np.mean(track_dict[poptracks.at[i, 'url']])
         if moy > this_moy:
                 moy = this_moy
-                bestpopsong = poptracks.at[i,'url']
+                bestpopsong = poptracks.at[i, 'url']
 
 print(bestpopsong)
 print('#######################\n')
@@ -253,15 +236,8 @@ for i in range(0, tracks.index[-1]+1):
 
 print('Chanson electro moyenne')
 print_mean_track(electrotracks)
-
-electrotrackscopy = electrotracks.drop(['url', 'pos_pic', 'pic15', 'livespan', 'pos_avg', 'avg15'], axis=1)
-norm_electro = (electrotrackscopy.sub(electrotrackscopy.mean(axis=0))).div(electrotrackscopy.std(axis=0))
-
-morceau_electro_plus_moyen = closer_mean(norm_electro)
-
-morceau_electro_plus_moyen = closer_mean(norm_electro)
 electrotracks = electrotracks.reset_index(drop=True)
-print(electrotracks.at[morceau_electro_plus_moyen, 'url'])
+print_closest_mean(electrotracks)
 
 bestelectrosong = ''
 moy = 100
@@ -269,7 +245,18 @@ for i in range(electrotracks.index[0], electrotracks.index[-1]+1):
         this_moy = np.mean(track_dict[electrotracks.at[i, 'url']])
         if moy > this_moy:
                 moy = this_moy
-                bestelectrosong = electrotracks.at[i,'url']
+                bestelectrosong = electrotracks.at[i, 'url']
 
 print(bestelectrosong)
 print('#######################\n')
+
+# On cherche l'évolution du classemement de Chop Suey
+
+chop_suey_chart = metal[metal['url'] == metaltracks.at[234, 'url']]
+chop_suey_sorted = chop_suey_chart.sort_values('date')
+
+chop_suey_sorted.plot(x='date', y='position', kind='line')
+plt.show()
+
+
+# 2.3
