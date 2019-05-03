@@ -153,15 +153,15 @@ morceau_fr_plus_moyen = closer_mean(norm_fr)
 frtracks = frtracks.reset_index(drop=True)
 print(frtracks.at[morceau_fr_plus_moyen, 'url'])
 
-bestmetalsong = ''
+bestfrsong = ''
 moy = 100
-for i in range(metaltracks.index[0], metaltracks.index[-1]+1):
-        this_moy = np.mean(track_dict[metaltracks.at[i,'url']])
+for i in range(frtracks.index[0], frtracks.index[-1]+1):
+        this_moy = np.mean(track_dict[frtracks.at[i, 'url']])
         if moy > this_moy:
                 moy = this_moy
-                bestmetalsong = metaltracks.at[i,'url']
+                bestfrsong = frtracks.at[i,'url']
 
-print(bestmetalsong)
+print(bestfrsong)
 print('#######################\n')
 
 
@@ -190,6 +190,16 @@ morceau_jazz_plus_moyen = closer_mean(norm_jazz)
 morceau_jazz_plus_moyen = closer_mean(norm_jazz)
 jazztracks = jazztracks.reset_index(drop=True)
 print(jazztracks.at[morceau_jazz_plus_moyen, 'url'])
+
+bestjazzsong = ''
+moy = 100
+for i in range(jazztracks.index[0], jazztracks.index[-1]+1):
+        this_moy = np.mean(track_dict[jazztracks.at[i, 'url']])
+        if moy > this_moy:
+                moy = this_moy
+                bestjazzsong = jazztracks.at[i,'url']
+
+print(bestjazzsong)
 print('#######################\n')
 
 
@@ -216,6 +226,16 @@ morceau_pop_plus_moyen = closer_mean(norm_pop)
 morceau_pop_plus_moyen = closer_mean(norm_pop)
 poptracks = poptracks.reset_index(drop=True)
 print(poptracks.at[morceau_pop_plus_moyen, 'url'])
+
+bestpopsong = ''
+moy = 100
+for i in range(poptracks.index[0], poptracks.index[-1]+1):
+        this_moy = np.mean(track_dict[poptracks.at[i, 'url']])
+        if moy > this_moy:
+                moy = this_moy
+                bestpopsong = poptracks.at[i,'url']
+
+print(bestpopsong)
 print('#######################\n')
 
 
@@ -242,4 +262,14 @@ morceau_electro_plus_moyen = closer_mean(norm_electro)
 morceau_electro_plus_moyen = closer_mean(norm_electro)
 electrotracks = electrotracks.reset_index(drop=True)
 print(electrotracks.at[morceau_electro_plus_moyen, 'url'])
+
+bestelectrosong = ''
+moy = 100
+for i in range(electrotracks.index[0], electrotracks.index[-1]+1):
+        this_moy = np.mean(track_dict[electrotracks.at[i, 'url']])
+        if moy > this_moy:
+                moy = this_moy
+                bestelectrosong = electrotracks.at[i,'url']
+
+print(bestelectrosong)
 print('#######################\n')
