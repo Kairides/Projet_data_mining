@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sb
 import sklearn.preprocessing as sk
+import scipy.spatial.distance as scp
 import numpy as np
 
 playlists = pd.read_csv('donnees/playlists.data', sep='\t')
@@ -101,15 +102,16 @@ min_dist = [1000000, '']
 norm_metal = (sk.normalize(metaltracks.iloc[0:, 2:]))
 print(norm_metal)
 
+zero = np.full(25, 0)
+print(zero)
 for i in range(1, len(metaltracks)):
-    dist = np.linalg.norm(norm_metal[i], ord=-1)
+    dist = scp.euclidean(zero, norm_metal[i])
     if dist < min_dist[0]:
         min_dist[0] = dist
         min_dist[1] = i
 
 print(min_dist[0], min_dist[1])
 
-# print(np.linalg.norm(sk.normalize(metaltracks.iloc[0:, 2:]), ord=-1, keepdims=True))
 print('#######################\n')
 
 
