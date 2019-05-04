@@ -238,7 +238,6 @@ print_mean_track(electrotracks)
 electrotracks = electrotracks.reset_index(drop=True)
 
 print_closest_mean(electrotracks)
-
 print_best_track(electrotracks)
 
 print('#######################\n')
@@ -257,11 +256,54 @@ plt.show() '''
 acp = skdecomp.PCA(n_components=2)
 
 # Essais d'ACP sur les morceaux metal
-'''metal_acp = acp.fit_transform(metaltracks.iloc[:, 2:11])
 
+features = ['BPM', 'Danceability', 'Valence', 'Energy', 'Acousticness', 'Instrumentalness', 'Liveness', 'Speechiness', 'Mode_Minor']
+
+metaltracks['playlist'] = 'metal'
+poptracks['playlist'] = 'lovepop'
+electrotracks['playlist'] = 'electro'
+jazztracks['playlist'] = 'jazz'
+frtracks['playlist'] = 'fr'
+
+tracks = pd.concat([metaltracks, poptracks, electrotracks, jazztracks, frtracks], ignore_index=True, sort=False)
+
+# print(electrotracks)
+
+x = tracks.loc[:, features].values
+y = tracks.loc[:, ['playlist']] .values
+
+x = sk.StandardScaler().fit_transform(x)
+
+pd.DataFrame(data=x, columns=features)
+
+composant = acp.fit_transform(x)
+data_frame = pd.DataFrame(data=composant, columns=['1', '2'])
+
+final = pd.concat([data_frame, tracks[['playlist']]], axis=1)
+
+fig = plt.figure(figsize=(10, 10))
+ax = fig.add_subplot(1, 1, 1)
+ax.set_xlabel('Premier composant principal')
+ax.set_ylabel('Deuxieme composant principal')
+ax.set_title('ACP sur toutes les playlists', fontsize=20)
+
+playlists_list = ['metal', 'lovepop', 'jazz', 'electro', 'fr']
+couleurs = ["red", "green", "blue", "magenta", "yellow"]
+
+for playlist_list, couleur in zip(playlists_list, couleurs):
+    indices = final['playlist'] == playlist_list
+    ax.scatter(final.loc[indices, '1'], final.loc[indices, '2'], c=couleur, s=50)
+
+ax.legend(playlists_list)
+ax.grid()
+
+plt.show()
+
+
+'''metal_acp = acp.fit_transform(metaltracks.iloc[:, 2:11])
 plt.scatter(metal_acp[:, 0], metal_acp[:, 1])
 
-plt.show()'''
+plt.show()
 
 
 # Essais d'ACP sur tous les morceaux
@@ -269,4 +311,4 @@ total_acp = acp.fit_transform(tracks.iloc[:, 2:11])
 
 plt.scatter(total_acp[:, 0], total_acp[:, 1])
 
-plt.show()
+# plt.show()'''
