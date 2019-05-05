@@ -20,14 +20,14 @@ for i in range(0, tracks.index[-1]+1):
     track_dict[tracks.at[i, 'url']] = val
 
 for i in range(0, playlists.index[-1]+1):
-    track_dict[playlists.at[i,'url']].append(playlists.at[i, 'position'])
+    track_dict[playlists.at[i, 'url']].append(playlists.at[i, 'position'])
 
 # création colonnes vides
-tracks['pos_pic']=''
-tracks['pic15']=''
-tracks['livespan']=''
-tracks['pos_avg']=''
-tracks['avg15']=''
+tracks['pos_pic'] = ''
+tracks['pic15'] = ''
+tracks['livespan'] = ''
+tracks['pos_avg'] = ''
+tracks['avg15'] = ''
 
 # remplissage des colonnes
 for i in range(0, tracks.index[-1]+1):
@@ -47,8 +47,14 @@ for i in range(0, tracks.index[-1]+1):
 
 
 # 2.2
-'''hmap = sb.heatmap(tracks.corr(), annot=True)
-plt.show()'''
+
+fig = plt.figure(figsize=(10, 10))
+ax = fig.add_subplot(1, 1, 1)
+ax.set_title('Correlation entre les différents attributs', fontsize=20)
+ax.set_xlabel('Attributs', fontsize=15)
+
+hmap = sb.heatmap(tracks.corr(), annot=True)
+plt.show()
 
 # ################################# CUSTOM FUNCTIONS #############################################
 
@@ -58,14 +64,13 @@ plt.show()'''
 
 def closer_mean(norm_playlist):
     min_dist = [1000000, '']
-    zero = np.full(len(norm_playlist), 0)
     norm_playlist = norm_playlist.values
 
-    for i in range(0, len(norm_playlist)):
-        dist = sum(np.power(norm_playlist[i], 2))**(1/2)
+    for j in range(0, len(norm_playlist)):
+        dist = sum(np.power(norm_playlist[j], 2))**(1/2)
         if dist <= min_dist[0]:
             min_dist[0] = dist
-            min_dist[1] = i
+            min_dist[1] = j
 
     return min_dist[1]
 
@@ -104,11 +109,11 @@ def print_closest_mean(playlist):
 def print_best_track(playlist):
     moy = 100
     best_track = ''
-    for i in range(len(playlist)):
-        this_moy = np.mean(track_dict[playlist.at[i, 'url']])
+    for j in range(len(playlist)):
+        this_moy = np.mean(track_dict[playlist.at[j, 'url']])
         if moy > this_moy:
             moy = this_moy
-            best_track = playlist.at[i, 'url']
+            best_track = playlist.at[j, 'url']
 
     print("Morceau mieux classé", best_track)
 
@@ -130,14 +135,31 @@ for i in range(0, tracks.index[-1]+1):
     if tracks.at[i, 'url'] not in metalset:
         metaltracks = metaltracks.drop(i)
 
-'''boxplot = metaltracks.boxplot()
+fig = plt.figure(figsize=(10, 10))
+ax = fig.add_subplot(1, 1, 1)
+ax.set_title('Distributions des différents attributs pour la playlist Métal', fontsize=20)
+ax.set_xlabel('Attributs', fontsize=15)
+
+boxplot = metaltracks.iloc[:, 1:10].boxplot()
 plt.show()
+
+fig = plt.figure(figsize=(10, 10))
+ax = fig.add_subplot(1, 1, 1)
+ax.set_title("Distribution des morceaux pour l'attribut BPM dans la playlist Métal", fontsize=20)
+ax.set_xlabel('Battement pour minute', fontsize=15)
+ax.set_ylabel('Nombre de morceau', fontsize=15)
+
 plt.hist(metaltracks['BPM'], bins=50)
 plt.show()
-plt.hist(metaltracks['Danceability'], bins=90)
+
+fig = plt.figure(figsize=(10, 10))
+ax = fig.add_subplot(1, 1, 1)
+ax.set_title("Distribution des morceaux pour l'attribut Instrumentalness dans la playlist Métal", fontsize=20)
+ax.set_xlabel('Instrumentalness')
+ax.set_ylabel('Nombre de morceau')
+
+plt.hist(metaltracks['Instrumentalness'], bins=90)
 plt.show()
-metaltracks.plot(x='Danceability', y=['Valence', 'BPM', 'Energy', 'Acousticness', 'Instrumentalness'], kind='bar')
-plt.show()'''
 
 print('Chanson metal moyenne :')
 print_mean_track(metaltracks)
@@ -251,15 +273,12 @@ print('#######################\n')
 chop_suey_chart = metal[metal['url'] == metaltracks.at[234, 'url']]
 chop_suey_sorted = chop_suey_chart.sort_values('date')
 
-''' chop_suey_sorted.plot(x='date', y='position', kind='line')
-plt.show() '''
-
+chop_suey_sorted.plot(x='date', y='position', kind='line')
+plt.show()
 
 # 2.3
 
 acp = skdecomp.PCA(n_components=2)
-
-# Essais d'ACP sur les morceaux metal
 
 features = ['BPM', 'Danceability', 'Valence', 'Energy', 'Acousticness', 'Instrumentalness', 'Liveness', 'Speechiness', 'Mode_Minor']
 
@@ -270,8 +289,6 @@ jazztracks['playlist'] = 'jazz'
 frtracks['playlist'] = 'fr'
 
 tracks = pd.concat([metaltracks, poptracks, electrotracks, jazztracks, frtracks], ignore_index=True, sort=False)
-
-# print(electrotracks)
 
 x = tracks.loc[:, features].values
 y = tracks.loc[:, ['playlist']] .values
@@ -304,20 +321,9 @@ ax.grid()
 plt.show()
 
 
-'''metal_acp = acp.fit_transform(metaltracks.iloc[:, 2:11])
-plt.scatter(metal_acp[:, 0], metal_acp[:, 1])
-
-plt.show()
 
 
-# Essais d'ACP sur tous les morceaux
-total_acp = acp.fit_transform(tracks.iloc[:, 2:11])
-
-plt.scatter(total_acp[:, 0], total_acp[:, 1])
-
-# plt.show()'''
-
-
+#2.3 Modèles
 print("###########################")
 print("1er Modèle :")
 
