@@ -322,9 +322,7 @@ ax.grid()
 plt.show()
 
 
-
-
-#2.3 Modèles
+#2.4 Modèles
 print("###########################")
 print("1er Modèle :")
 nc = tracks.loc[:, features]
@@ -332,48 +330,26 @@ classe = tracks['playlist']
 algo = tree.DecisionTreeClassifier(max_depth=10)  # pré-élagage
 monModele = algo.fit(nc, classe)  # fonction ajustement
 print("Mean accuracy : %.2f"% monModele.score(nc, classe))  # mesure de qualité
-
-
-'''X = tracks.loc[:, features]
-y = pd.DataFrame(tracks['playlist'])
-for i in range(0, y.index[-1]+1):
-        playlist = y.at[i,'playlist']
-        if(playlist == 'fr'):
-                y.at[i,'playlist'] = 1
-        elif playlist == 'jazz':
-                y.at[i,'playlist'] = 2
-        elif playlist == 'lovepop':
-                y.at[i,'playlist'] = 3
-        elif playlist == 'electro':
-                y.at[i,'playlist'] = 4
-        elif playlist == 'metal':
-                y.at[i,'playlist'] = 5
-
-X_train, X_test, y_train, y_test = train_test_split(X.values, y.values, train_size=0.2)
-
-m = tree.DecisionTreeRegressor()
-m.fit(X_train, y_train)
-prediction = m.predict(X_test)'''
-
-def evaluation(y_test, prediction):
-    # The mean squared error
-    print("Mean absolute error: %.2f"% mean_absolute_error(y_test, prediction))
-    print("Median absolute error: %.2f"% median_absolute_error(y_test, prediction))
-    # Explained variance score: 1 is perfect prediction
-    print('Variance score: %.2f' % r2_score(y_test, prediction))
-
 print("###########################\n")
 
+
 print("###########################")
-print("3eme Modèle :")
+print("2eme Modèle :")
 X = tracks.loc[:, features]
 y = pd.DataFrame(tracks['pos_avg'])
 X_train, X_test, y_train, y_test = train_test_split(X.values, y.values, train_size=0.2)
 m = tree.DecisionTreeRegressor()
 m.fit(X_train, y_train)
 prediction = m.predict(X_test)
+def evaluation(y_test, prediction):
+    # The mean squared error
+    print("Mean absolute error: %.2f"% mean_absolute_error(y_test, prediction))
+    print("Median absolute error: %.2f"% median_absolute_error(y_test, prediction))
+    # Explained variance score: 1 is perfect prediction
+    print('Variance score: %.2f' % r2_score(y_test, prediction))
 evaluation(y_test, prediction)
 print("###########################\n")
+
 
 print("###########################")
 print("3eme Modèle :")
@@ -381,7 +357,6 @@ classe = tracks['pic15'].apply(str)
 algo = tree.DecisionTreeClassifier(max_depth=10)  # pré-élagage
 monModele = algo.fit(nc, classe)  # fonction ajustement
 print("Mean accuracy : %.2f"% monModele.score(nc, classe))  # mesure de qualité
-print("###########################\n")
-
-skplt.metrics.plot_roc(classe.values, monModele.predict_proba(nc), classes_to_plot=[])
+skplt.metrics.plot_roc(classe.values, monModele.predict_proba(nc))
 plt.show()
+print("###########################\n")
