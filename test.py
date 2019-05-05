@@ -136,7 +136,7 @@ ax = fig.add_subplot(1, 1, 1)
 ax.set_title('Distributions des différents attributs pour la playlist Métal', fontsize=20)
 ax.set_xlabel('Attributs', fontsize=15)
 
-boxplot = metaltracks.iloc[:, 1:11].boxplot()
+boxplot = metaltracks.iloc[:, 1:10].boxplot()
 plt.show()
 
 fig = plt.figure(figsize=(10, 10))
@@ -150,15 +150,12 @@ plt.show()
 
 fig = plt.figure(figsize=(10, 10))
 ax = fig.add_subplot(1, 1, 1)
-ax.set_title("Distribution des morceaux pour l'attribut Danceability dans la playlist Métal", fontsize=20)
-ax.set_xlabel('Danceability')
+ax.set_title("Distribution des morceaux pour l'attribut Instrumentalness dans la playlist Métal", fontsize=20)
+ax.set_xlabel('Instrumentalness')
 ax.set_ylabel('Nombre de morceau')
 
-plt.hist(metaltracks['Danceability'], bins=90)
+plt.hist(metaltracks['Instrumentalness'], bins=90)
 plt.show()
-
-'''metaltracks.plot(x='Danceability', y=['Valence', 'BPM', 'Energy', 'Acousticness', 'Instrumentalness'], kind='bar')
-plt.show()'''
 
 print('Chanson metal moyenne :')
 print_mean_track(metaltracks)
