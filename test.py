@@ -47,6 +47,7 @@ for i in range(0, tracks.index[-1]+1):
 fig = plt.figure(figsize=(10, 10))
 ax = fig.add_subplot(1, 1, 1)
 ax.set_title('Correlation entre les différents attributs', fontsize=20)
+ax.set_xlabel('Attributs', fontsize=15)
 
 hmap = sb.heatmap(tracks.corr(), annot=True)
 plt.show()
@@ -130,12 +131,32 @@ for i in range(0, tracks.index[-1]+1):
     if tracks.at[i, 'url'] not in metalset:
         metaltracks = metaltracks.drop(i)
 
-boxplot = metaltracks.boxplot()
+fig = plt.figure(figsize=(10, 10))
+ax = fig.add_subplot(1, 1, 1)
+ax.set_title('Distributions des différents attributs pour la playlist Métal', fontsize=20)
+ax.set_xlabel('Attributs', fontsize=15)
+
+boxplot = metaltracks.iloc[:, 1:11].boxplot()
 plt.show()
+
+fig = plt.figure(figsize=(10, 10))
+ax = fig.add_subplot(1, 1, 1)
+ax.set_title("Distribution des morceaux pour l'attribut BPM dans la playlist Métal", fontsize=20)
+ax.set_xlabel('Battement pour minute', fontsize=15)
+ax.set_ylabel('Nombre de morceau', fontsize=15)
+
 plt.hist(metaltracks['BPM'], bins=50)
 plt.show()
+
+fig = plt.figure(figsize=(10, 10))
+ax = fig.add_subplot(1, 1, 1)
+ax.set_title("Distribution des morceaux pour l'attribut Danceability dans la playlist Métal", fontsize=20)
+ax.set_xlabel('Danceability')
+ax.set_ylabel('Nombre de morceau')
+
 plt.hist(metaltracks['Danceability'], bins=90)
 plt.show()
+
 '''metaltracks.plot(x='Danceability', y=['Valence', 'BPM', 'Energy', 'Acousticness', 'Instrumentalness'], kind='bar')
 plt.show()'''
 
